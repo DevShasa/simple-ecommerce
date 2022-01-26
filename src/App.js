@@ -17,16 +17,17 @@ export default class App extends Component {
       user: null,
       cart: {},
       products: [],
-      toggleMenu: true
+      toggleMenu: false
     };
     this.routerRef = React.createRef();
   }
 
-  //Fetch the user from last session 
-  componentDidMount(){
+  // Fetch the user from last session 
+  async componentDidMount(){
     let user = localStorage.getItem("user");
+    const products = await axios.get("http://localhost:3001/products");
     user = user ? JSON.parse(user): null;
-    this.setState({user})
+    this.setState({user, products: products.data})
   }
 
   // Login method
@@ -36,7 +37,7 @@ export default class App extends Component {
                       .catch((res)=>{return {status:401, message:"Unauthorized"}})
     // If request is successful
     if(res.status === 200){
-      //const { email } = jwt_decode(res.data.accessToken)
+      const { email } = jwt_decode(res.data.accessToken)
       const user = {
         email, 
         token: res.data.accessToken,
@@ -56,6 +57,9 @@ export default class App extends Component {
     this.setState({user:null});
     localStorage.removeItem("user")
   }
+
+  // Function to add a product to cart 
+  
 
   render() {
     return (
@@ -83,7 +87,7 @@ export default class App extends Component {
                 <b className="navbar-item is-size-4 ">e-commerce</b>
                 <label
                   role="button"
-                  class="navbar-burger burger"
+                  className="navbar-burger burger"
                   aria-label="menu"
                   aria-expanded="false"
                   data-target="navbarBasicExample"
