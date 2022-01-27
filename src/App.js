@@ -37,7 +37,7 @@ export default class App extends Component {
                       .catch((res)=>{return {status:401, message:"Unauthorized"}})
     // If request is successful
     if(res.status === 200){
-      const { email } = jwt_decode(res.data.accessToken)
+      //const { email } = jwt_decode(res.data.accessToken)
       const user = {
         email, 
         token: res.data.accessToken,
@@ -59,7 +59,11 @@ export default class App extends Component {
   }
 
   // Function to add a product to cart 
-  
+  addProduct = (product, callback)=>{
+    let products = this.state.products.slice();
+    products.push(product);
+    this.setState({products}, ()=> callback && callback());
+  }
 
   render() {
     return (
