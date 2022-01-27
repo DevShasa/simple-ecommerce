@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Switch, Route, Link, BrowserRouter as Router } from "react-router-dom";
 import axios from 'axios';
-import jwt_decode from "jwt-decode";
+import jwt_decode from "jwt-decode"; 
 
 import AddProduct from "./components/AddProduct";
 import Cart from './components/Cart';
@@ -38,6 +38,7 @@ export default class App extends Component {
     // If request is successful
     if(res.status === 200){
       //const { email } = jwt_decode(res.data.accessToken)
+      console.log("JWT DECODED>", jwt_decode(res.data.accessToken))
       const user = {
         email, 
         token: res.data.accessToken,
@@ -58,9 +59,9 @@ export default class App extends Component {
     localStorage.removeItem("user")
   }
 
-  // Function to add a product to cart 
+  // Function to add a product to state 
   addProduct = (product, callback)=>{
-    let products = this.state.products.slice();
+    let products = this.state.products;
     products.push(product);
     this.setState({products}, ()=> callback && callback());
   }
