@@ -33,7 +33,7 @@ class AddProduct extends Component {
                 { name, stock, price, shortDesc, description}
             )
 
-            // Update contest
+            // Update contect
             this.props.context.addProduct(
                 {name, price, shortDesc, description, stock: stock || 0}, 
                 () => this.setState({productState: initState}) // reset the state 
