@@ -30,8 +30,12 @@ const ProductItem = (props)=>{
                         <div className="is-clearfix">
                             <button
                                 className="button is-small is-outlined is-primary is-pulled-right"
-                                onClick={()=>
-                                    props.addToCart({id:product.name, product, ammount: 1})
+                                onClick={() =>
+                                    props.addToCart({
+                                        id:product.name,
+                                        product,
+                                        ammount: 1
+                                    })
                                 }
                             >
                                 Add to Cart

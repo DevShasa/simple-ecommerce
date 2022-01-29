@@ -9,6 +9,7 @@ import Login from './components/Login';
 import ProductList from './components/ProductList';
 
 import Context from "./context/Context";
+import CartItem from "./components/CartItem";
 
 export default class App extends Component {
   constructor(props) {
@@ -68,6 +69,45 @@ export default class App extends Component {
     this.setState({products}, ()=> callback && callback());
   }
 
+  // Function to add to cart 
+  addToCart = (cartItem)=>{
+    console.log(cartItem)
+    let cart  = this.state.cart
+
+    if(cart[cartItem.id]){
+      // if cart number is already present then add the ammount
+      cart[cartItem.id].ammount += cartItem.amount
+    }else{
+      // if cart does not exist then add a new cart object id:{cart}
+      cart[cartItem.id] = cartItem;
+    }
+
+    // If item ordered is greater than items in stock, change items ordered to items in stock
+    if(cart[cartItem.id].ammount > cart[cartItem.id].product.stock){
+      cart[cartItem.id].ammount = cart[cartItem.id].product.stock;
+    }
+
+    // Update state and localstorage
+    localStorage.setItem("cart", JSON.stringify(cart));
+    this.setState({cart});
+  };
+
+
+  // Function to remove an item from cart 
+  removeFromCart = (cartItemId)=>{
+      let cart = this.state.cart;
+      delete cart[cartItemId];
+      localStorage.setItem("cart", JSON.stringify(cart));
+      this.setState({cart})
+  }
+
+  // Empty the cart
+  clearCart = ()=>{
+    let cart = {}
+    localStorage.removeItem("cart");
+    this.setState({cart})
+  }
+
   render() {
     return (
       <Context.Provider
@@ -117,7 +157,7 @@ export default class App extends Component {
                       Add Product
                     </Link>
                   )}
-                  <Link to="/cart" className="navbar-item">
+                  {/* <Link to="/cart" className="navbar-item">
                     Cart
                     <span
                       className="tag is-primary"
@@ -125,7 +165,7 @@ export default class App extends Component {
                     >
                       { Object.keys(this.state.cart).length }
                     </span>
-                  </Link>
+                  </Link> */}
                   {!this.state.user ? 
                   (
                     <Link to="/login" className="navbar-item">
