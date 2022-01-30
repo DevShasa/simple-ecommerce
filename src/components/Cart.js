@@ -4,8 +4,9 @@ import CartItem from "./CartItem"
 
 
 const Cart = (props)=>{
-    const cart = props.context;
+    const {cart}  = props.context;
     const cartKeys = Object.keys(cart || {});
+    console.log(cart)
 
     return(
         <React.Fragment>

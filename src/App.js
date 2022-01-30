@@ -9,7 +9,6 @@ import Login from './components/Login';
 import ProductList from './components/ProductList';
 
 import Context from "./context/Context";
-import CartItem from "./components/CartItem";
 
 export default class App extends Component {
   constructor(props) {
@@ -30,6 +29,7 @@ export default class App extends Component {
 
     const products = await axios.get("http://localhost:3001/products");
     user = user ? JSON.parse(user): null;
+    cart = cart ? JSON.parse(cart): {};
     this.setState({user, products: products.data, cart})
   }
 
@@ -71,12 +71,12 @@ export default class App extends Component {
 
   // Function to add to cart 
   addToCart = (cartItem)=>{
-    console.log(cartItem)
+
     let cart  = this.state.cart
 
-    if(cart[cartItem.id]){
+    if(cart.hasOwnProperty(cartItem.id)){
       // if cart number is already present then add the ammount
-      cart[cartItem.id].ammount += cartItem.amount
+      cart[cartItem.id].ammount += cartItem.ammount
     }else{
       // if cart does not exist then add a new cart object id:{cart}
       cart[cartItem.id] = cartItem;
@@ -157,7 +157,7 @@ export default class App extends Component {
                       Add Product
                     </Link>
                   )}
-                  {/* <Link to="/cart" className="navbar-item">
+                  <Link to="/cart" className="navbar-item">
                     Cart
                     <span
                       className="tag is-primary"
@@ -165,7 +165,7 @@ export default class App extends Component {
                     >
                       { Object.keys(this.state.cart).length }
                     </span>
-                  </Link> */}
+                  </Link>
                   {!this.state.user ? 
                   (
                     <Link to="/login" className="navbar-item">
