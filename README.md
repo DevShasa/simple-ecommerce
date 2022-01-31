@@ -4,6 +4,7 @@ This is a simple eccommerce shop built using react and React Context for state m
 Features
 - Product list display
 - Cart
+- Add to cart 
 - User/admin login/logout
 - Cart checkout
 - User admin add products 
